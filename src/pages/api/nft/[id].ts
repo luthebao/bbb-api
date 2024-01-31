@@ -1,12 +1,14 @@
+import { ADDRESS } from '@/config/address';
+import { mainChain } from '@/config/connector';
 import { STORAGE_ABI } from '@/utils/abis';
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { Address, createPublicClient, http } from 'viem';
 import { bsc } from 'viem/chains';
 
-const STORAGE_NFT: Address = "0xF265d1E90a09f518c96744A013C1c7724FC567ba"
+const STORAGE_NFT: Address = ADDRESS[mainChain.id].StorageNFT
 
 const publicClient = createPublicClient({
-    chain: bsc,
+    chain: mainChain,
     transport: http()
 })
 

@@ -1,118 +1,128 @@
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
+import NFTItem from '@/components/NFTItem/NFTItem';
+import { useAccount, useBalance, useNetwork } from 'wagmi';
+import { ReactElement, useState } from 'react';
+import { Dialog } from '@mui/material';
+import { NFTDetail } from '@/config/abi';
 
 const inter = Inter({ subsets: ['latin'] })
 
+const nftDatas: NFTDetail[] = [
+    {
+        id: 1,
+        image: "essential",
+        title: "ESSENTIAL",
+        color: "#1DDA7B",
+        babybonk: "10M",
+        bnb: "0.05",
+        description:
+            "The ideal choice for newcomers to Bonk Royale. This basic pack includes 5 Common players (NFTs), providing a solid foundation for building your initial team. It's a great way to start your adventure, introducing you to the game mechanics and setting you on the path to eventually collecting higher rarity characters.",
+        rarities: [
+            <p>
+                <b>Common:</b> 100%
+            </p>,
+        ],
+    },
+    {
+        id: 2,
+        image: "deluxe",
+        title: "DELUXE",
+        color: "#D3631D",
+        babybonk: "50M",
+        bnb: "0.1",
+        description:
+            "An advanced upgrade for those looking to elevate their Bonk Royale gameplay. This pack includes 5 players (NFTs), encompassing a blend of Common and Rare characters. It's an ideal choice for players seeking to enhance their team's competitiveness, providing a variety of skilled characters that can significantly strengthen and diversify your lineup.",
+        rarities: [
+            <p>
+                <b>Common:</b> 71.74%
+            </p>,
+            <p>
+                <b>Rare:</b> 28.26%
+            </p>,
+        ],
+    },
+    {
+        id: 3,
+        image: "supreme",
+        title: "SUPREME",
+        color: "#E2C81D",
+        babybonk: "70M",
+        bnb: "0.15",
+        description:
+            "A powerhouse choice for dominating in Bonk Royale. This formidable pack comes with 5 players (NFTs) and two items, spanning all rarity levels. It's designed for those who aim to outclass the competition, offering a diverse and potent mix of characters and gear that can decisively turn the tide in any battle.",
+        rarities: [
+            <p>
+                <b>Common:</b> 66%
+            </p>,
+            <p>
+                <b>Rare:</b> 26%
+            </p>,
+            <p>
+                <b>Ultra Rare:</b> 6%
+            </p>,
+            <p>
+                <b>Legendary:</b> 2%
+            </p>,
+        ],
+    },
+    {
+        id: 4,
+        image: "elite",
+        title: "ELITE",
+        color: "#9F40DB",
+        babybonk: "100M",
+        bnb: "0.25",
+        description:
+            "This pack stands as the pinnacle of Bonk Royale packs. This ultimate collection includes 5 players (NFTs) and 3 items, with every piece ranging from Rare to Ultra Rare or Legendary. Tailored for those seeking the best, it offers an unparalleled array of high-caliber characters and items, setting the stage for unmatched gameplay and strategic dominance.",
+        rarities: [
+            <p>
+                <b>Rare:</b> 81.25%
+            </p>,
+            <p>
+                <b>Ultra Rare:</b> 18.75%
+            </p>,
+            <p>
+                <b>Legendary:</b> 6.5%
+            </p>,
+        ],
+    },
+];
+
 export default function Home() {
-  return (
-    <main
-      className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
-    >
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/pages/index.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    const [selectedPack, setSelectedPack] = useState<NFTDetail | null>(null);
+    const { address, connector, isConnected } = useAccount();
+    const { data, isError, isLoading } = useBalance({
+        address: address,
+    });
+
+    return (
+        <div className="w-full h-full relative bg-transparent flex flex-col justify-center items-center min-h-[calc(100vh-80px)]" id="home">
+            <div className="overlay"></div>
+            <div className="w-[85%] xl:w-[70%] flex flex-col items-start justify-center maincol">
+                <div className="text-[38px] lg:text-[64px] font-genotics w-fit items-center">
+                    BONK ROYALE NFT SHOP
+                </div>
+                <div className="text-[12px] lg:text-[14px] font-poppins w-fit">
+                    The perfect packs to build an ultimate team. All NFTs are usable in
+                    Bonk Royale!
+                </div>
+
+                <div className="w-full flex flex-wrap items-center justify-between mt-10">
+                    {nftDatas.map((data) => (
+                        <div className="nftwrap">
+                            <NFTItem
+                                key={data.image}
+                                pack={data}
+                            />
+                        </div>
+                    ))}
+                </div>
+            </div>
+            <div className="text-[12px] lg:text-[14px] font-poppins w-fit">
+                <br />
+                powered by BabyBonk
+            </div>
         </div>
-      </div>
-
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700/10 after:dark:from-sky-900 after:dark:via-[#0141ff]/40 before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Discover and deploy boilerplate example Next.js&nbsp;projects.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
+    )
 }

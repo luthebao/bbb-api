@@ -1,12 +1,13 @@
+import { ADDRESS } from '@/config/address';
+import { mainChain } from '@/config/connector';
 import { STORAGE_ABI } from '@/utils/abis';
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { Address, Hash, createPublicClient, decodeEventLog, http, parseAbi } from 'viem';
-import { bsc } from 'viem/chains';
 
-const STORAGE_NFT: Address = "0xF265d1E90a09f518c96744A013C1c7724FC567ba"
+const STORAGE_NFT: Address = ADDRESS[mainChain.id].StorageNFT
 
 const publicClient = createPublicClient({
-    chain: bsc,
+    chain: mainChain,
     transport: http()
 })
 
@@ -60,15 +61,15 @@ export default async function handler(
                 topics: topic,
                 strict: false
             })
-            if (decoded.args.tokenId) {
+            if (decoded.args.from === "0x0000000000000000000000000000000000000000") {
                 const info = await publicClient.readContract({
                     address: STORAGE_NFT,
                     abi: STORAGE_ABI,
                     functionName: "CardInfos",
-                    args: [decoded.args.tokenId]
+                    args: [decoded.args.tokenId as bigint]
                 })
                 result.push({
-                    tokenid: decoded.args.tokenId.toString(),
+                    tokenid: Number(decoded.args.tokenId),
                     image: `https://cloudflare-ipfs.com/ipfs/bafybeigszjn34i7bell7haxhhuyvqbipzvmezcphzln6yxn33ha2wlobi4/${info[2].toString()}/${info[3].toString()}/img${info[1].toString()}.png`
                 })
             }
