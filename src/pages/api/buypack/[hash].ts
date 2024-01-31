@@ -2,7 +2,7 @@ import { ADDRESS } from '@/config/address';
 import { mainChain } from '@/config/connector';
 import { STORAGE_ABI } from '@/utils/abis';
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { Address, Hash, createPublicClient, decodeEventLog, http, parseAbi } from 'viem';
+import { Address, Hash, createPublicClient, decodeEventLog, http, isAddressEqual, parseAbi } from 'viem';
 
 const STORAGE_NFT: Address = ADDRESS[mainChain.id].StorageNFT
 
@@ -22,7 +22,7 @@ export default async function handler(
             hash: hash
         })
 
-        const topics = transaction.logs.filter(val => val.topics.length > 2 && val.topics[0] === "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef" && val.topics[1] === "0x0000000000000000000000000000000000000000000000000000000000000000").map(val => val.topics)
+        const topics = transaction.logs.filter(val => val.topics.length > 2 && isAddressEqual(val.address, ADDRESS[mainChain.id].CARDNFT) && val.topics[0] === "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef" && val.topics[1] === "0x0000000000000000000000000000000000000000000000000000000000000000").map(val => val.topics)
 
         let result = []
 

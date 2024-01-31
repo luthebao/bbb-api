@@ -21,7 +21,7 @@ const NFTItem = ({ pack }: {
     const router = useRouter()
     const account = useAccount()
     const network = useNetwork()
-    const CONTRACTS = ADDRESS[mainChain.id]
+    const CONTRACTS = network.chain && !network.chain.unsupported ? ADDRESS[network.chain.id] : ADDRESS[mainChain.id]
 
     const nativeBalance = useBalance({
         address: account.address,
@@ -88,6 +88,7 @@ const NFTItem = ({ pack }: {
                     toast("Buy Pack Failed")
                 }
             } catch (error: ERROR | any) {
+                console.log(error)
                 if (error instanceof TransactionExecutionError) {
                     toast(error.shortMessage)
                 } else if (error instanceof ContractFunctionExecutionError) {
@@ -148,7 +149,7 @@ const NFTItem = ({ pack }: {
     }
 
     return (
-        <Fragment>
+        <Fragment key={pack.id}>
             <div className="relative w-full sm:w-[100%] md:w-[100%] cursor-pointer mb-10 md:mb-0"
                 onMouseOver={() => setIsHover(true)}
                 onMouseLeave={() => setIsHover(false)}

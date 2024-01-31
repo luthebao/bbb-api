@@ -16,15 +16,16 @@ import { formatNumber } from "@/config/utils";
 const Header = () => {
     const account = useAccount()
     const network = useNetwork()
-    const CONTRACTS = network.chain ? ADDRESS[network.chain.id] : ADDRESS[mainChain.id]
+    const CONTRACTS = network.chain && !network.chain.unsupported ? ADDRESS[network.chain.id] : ADDRESS[mainChain.id]
 
     const nativeBalance = useBalance({
-        address: account.address,
+        address: account.address
     })
 
     const tokenBalance = useBalance({
         address: account.address,
-        token: CONTRACTS.Token
+        token: CONTRACTS.Token,
+        chainId: mainChain.id
     })
 
     return (

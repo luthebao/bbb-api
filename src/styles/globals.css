@@ -412,7 +412,7 @@ main {
     }
 
     body {
-        background: url("../../public/assets/images/bgmob.jpg") !important;
+        background: url("/assets/images/bgmob.jpg") !important;
         background-size: cover !important;
         background-repeat: no-repeat !important;
     }

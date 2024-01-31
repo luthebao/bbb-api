@@ -1,9 +1,6 @@
-import Image from 'next/image'
+
 import { Inter } from 'next/font/google'
 import NFTItem from '@/components/NFTItem/NFTItem';
-import { useAccount, useBalance, useNetwork } from 'wagmi';
-import { ReactElement, useState } from 'react';
-import { Dialog } from '@mui/material';
 import { NFTDetail } from '@/config/abi';
 
 const inter = Inter({ subsets: ['latin'] })
@@ -90,11 +87,6 @@ const nftDatas: NFTDetail[] = [
 ];
 
 export default function Home() {
-    const [selectedPack, setSelectedPack] = useState<NFTDetail | null>(null);
-    const { address, connector, isConnected } = useAccount();
-    const { data, isError, isLoading } = useBalance({
-        address: address,
-    });
 
     return (
         <div className="w-full h-full relative bg-transparent flex flex-col justify-center items-center min-h-[calc(100vh-80px)]" id="home">
@@ -110,9 +102,8 @@ export default function Home() {
 
                 <div className="w-full flex flex-wrap items-center justify-between mt-10">
                     {nftDatas.map((data) => (
-                        <div className="nftwrap">
+                        <div className="nftwrap" key={data.image}>
                             <NFTItem
-                                key={data.image}
                                 pack={data}
                             />
                         </div>
