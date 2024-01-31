@@ -69,7 +69,7 @@ export default async function handler(
                 })
                 result.push({
                     tokenid: decoded.args.tokenId.toString(),
-                    image: `https://bafybeigszjn34i7bell7haxhhuyvqbipzvmezcphzln6yxn33ha2wlobi4.ipfs.nftstorage.link/${info[2].toString()}/${info[3].toString()}/img${info[1].toString()}.png`
+                    image: `https://cloudflare-ipfs.com/ipfs/bafybeigszjn34i7bell7haxhhuyvqbipzvmezcphzln6yxn33ha2wlobi4/${info[2].toString()}/${info[3].toString()}/img${info[1].toString()}.png`
                 })
             }
         }
