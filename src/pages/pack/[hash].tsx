@@ -21,7 +21,14 @@ export default function Pack() {
         const get_nfts = await fetch(`/api/buypack/${hash}`)
         const res = await get_nfts.json()
         if (res.result.length > 0) {
-            setResult(res.result)
+            // setResult(res.result as NFTResult[])
+            (res.result as NFTResult[]).forEach(element => {
+                fetch(element.image).then(() => {
+                    if (!result.map(val => val.tokenid).includes(element.tokenid)) {
+                        setResult((prev) => [...prev, element])
+                    }
+                })
+            });
         } else {
             setTimeout(async () => fetchNFTs(hash), 2000)
         }
@@ -29,6 +36,7 @@ export default function Pack() {
 
     useEffect(() => {
         if (transactionHash) {
+            setResult([])
             fetchNFTs(transactionHash)
         }
     }, [transactionHash])
@@ -40,7 +48,7 @@ export default function Pack() {
                 <div className="bg-[#161616] rounded-[4px] m-[32px] flex flex-col relative max-h-[calc(100%_-_64px] max-w-full w-[85vw] px-[20px] md:px-[40px] py-[20px]">
                     <div className="grid grid-cols-8 sm:grid-cols-9 md:grid-cols-10 justify-center gap-x-0 gap-y-4 md:gap-y-6 lg:gap-y-10 mx-auto mt-8">
                         {
-                            result.map(val => (
+                            result.filter(({ tokenid }, index) => !result.map((val) => val.tokenid).includes(tokenid, index + 1)).map(val => (
                                 <img
                                     key={val.tokenid}
                                     src={val.image}
