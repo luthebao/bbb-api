@@ -70,7 +70,8 @@ export default async function handler(
                 })
                 result.push({
                     tokenid: Number(decoded.args.tokenId),
-                    image: `https://bafybeigszjn34i7bell7haxhhuyvqbipzvmezcphzln6yxn33ha2wlobi4.ipfs.nftstorage.link/${info[2].toString()}/${info[3].toString()}/img${info[1].toString()}.png`
+                    image: `https://bafybeigszjn34i7bell7haxhhuyvqbipzvmezcphzln6yxn33ha2wlobi4.ipfs.nftstorage.link/${info[2].toString()}/${info[3].toString()}/img${info[1].toString()}.png`,
+                    rare: info[3].toString() === "2" ? "Rare" : info[3].toString() === "3" ? "Ultra Rare" : info[3].toString() === "4" ? "Legendary" : "Common"
                 })
             }
         }

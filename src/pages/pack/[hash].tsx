@@ -5,6 +5,7 @@ import { Hash } from "viem"
 interface NFTResult {
     tokenid: number
     image: string
+    rare: string
 }
 
 
@@ -49,11 +50,14 @@ export default function Pack() {
                     <div className="grid grid-cols-8 sm:grid-cols-9 md:grid-cols-10 justify-center gap-x-0 gap-y-4 md:gap-y-6 lg:gap-y-10 mx-auto mt-8">
                         {
                             result.filter(({ tokenid }, index) => !result.map((val) => val.tokenid).includes(tokenid, index + 1)).map(val => (
-                                <img
-                                    key={val.tokenid}
-                                    src={val.image}
-                                    className={`flex flex-col items-center col-span-4 sm:col-span-3 md:col-span-2 fadeIn`}
-                                />
+                                <div className="flex flex-col items-center col-span-4 sm:col-span-3 md:col-span-2 fadeIn">
+                                    <img
+                                        key={val.tokenid}
+                                        src={val.image}
+                                        className={``}
+                                    />
+                                    <div className="flex ml-3">{val.rare}</div>
+                                </div>
                             ))
                         }
                     </div>
