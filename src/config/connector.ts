@@ -19,8 +19,8 @@ import {
 import { baseGoerli, bsc, goerli } from 'viem/chains';
 
 const CHAINS_lIST = [
+    baseGoerli,
     bsc,
-    // baseGoerli,
 ]
 
 const mainChain = CHAINS_lIST[0]

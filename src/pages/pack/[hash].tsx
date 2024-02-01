@@ -62,14 +62,15 @@ export default function Pack() {
                         }
                     </div>
                     <div className="flex items-center justify-center w-full mt-20 pb-[40px] lg:pb-[20px]">
-                        <div
+                        <a
                             className={
                                 'text-[16px] md:text-[24px] font-normal text-white px-[32px] py-[16px] bg-[#ffffff0f] hover:bg-[#FF6200] cursor-pointer font-genotics'
                             }
-                            onClick={() => router.push("/")}
+                            // onClick={() => router.push("/")}
+                            href="/"
                         >
                             BACK TO SHOP
-                        </div>
+                        </a>
                     </div>
                 </div>
             </div> : <video autoPlay loop muted playsInline className="absolute top-0 left-0 right-0 bottom-0 min-w-full min-h-full w-screen h-screen z-10 bg-cover object-cover">

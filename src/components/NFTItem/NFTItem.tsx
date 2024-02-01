@@ -65,6 +65,18 @@ const NFTItem = ({ pack }: {
         if (account.isConnected && account.address && network.chain && network.chain.id === mainChain.id && priceInfo[0] > BigInt(0) && priceInfo[1] > BigInt(0)) {
             setLoading(true)
             try {
+                const gas = await wagmiCore.getPublicClient().estimateContractGas({
+                    address: CONTRACTS.Packs,
+                    abi: ABI_PACKS,
+                    functionName: "buyPack",
+                    args: [
+                        BigInt(pack.id),
+                        useToken
+                    ],
+                    value: useToken ? undefined : priceInfo[0],
+                    account: account.address
+                })
+
                 const write = await wagmiCore.writeContract({
                     abi: ABI_PACKS,
                     address: CONTRACTS.Packs,
@@ -73,12 +85,13 @@ const NFTItem = ({ pack }: {
                         BigInt(pack.id),
                         useToken
                     ],
-                    value: useToken ? undefined : priceInfo[0]
+                    value: useToken ? undefined : priceInfo[0],
+                    gas: gas * BigInt(120) / BigInt(100)
                 })
 
                 const hash = write.hash
                 const wait2 = await wagmiCore.waitForTransaction({
-                    confirmations: 2,
+                    confirmations: 5,
                     hash: hash
                 })
 
