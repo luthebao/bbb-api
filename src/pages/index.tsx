@@ -91,7 +91,7 @@ export default function Home() {
     return (
         <div className="w-full h-full relative bg-transparent flex flex-col justify-center items-center min-h-[calc(100vh-80px)]" id="home">
             <div className="overlay"></div>
-            <div className="w-[85%] xl:w-[70%] flex flex-col items-start justify-center maincol">
+            <div className="w-[85%] xl:w-[70%] flex flex-col items-start justify-center maincol m-auto">
                 <div className="text-[38px] lg:text-[64px] font-genotics w-fit items-center">
                     BONK ROYALE NFT SHOP
                 </div>
