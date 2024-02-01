@@ -21,14 +21,14 @@ export default function Pack() {
         const get_nfts = await fetch(`/api/buypack/${hash}`)
         const res = await get_nfts.json()
         if (res.result.length > 0) {
-            // setResult(res.result as NFTResult[])
-            (res.result as NFTResult[]).forEach(element => {
-                fetch(element.image).then(() => {
-                    if (!result.map(val => val.tokenid).includes(element.tokenid)) {
-                        setResult((prev) => [...prev, element])
-                    }
-                })
-            });
+            setResult(res.result)
+            // (res.result as NFTResult[]).forEach(element => {
+            //     fetch(element.image).then(() => {
+            //         if (!result.map(val => val.tokenid).includes(element.tokenid)) {
+            //             setResult((prev) => [...prev, element])
+            //         }
+            //     })
+            // });
         } else {
             setTimeout(async () => fetchNFTs(hash), 2000)
         }
