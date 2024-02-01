@@ -110,8 +110,7 @@ export default function Home() {
                     ))}
                 </div>
             </div>
-            <div className="text-[12px] lg:text-[14px] font-poppins w-fit">
-                <br />
+            <div className="text-[12px] lg:text-[14px] font-poppins flex items-center justify-center">
                 powered by BabyBonk
             </div>
         </div>

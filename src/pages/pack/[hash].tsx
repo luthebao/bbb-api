@@ -56,7 +56,7 @@ export default function Pack() {
                                         src={val.image}
                                         className={``}
                                     />
-                                    <div className="flex ml-3">{val.rare}</div>
+                                    <div className="flex justify-center">{val.rare}</div>
                                 </div>
                             ))
                         }
